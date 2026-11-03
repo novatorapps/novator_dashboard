@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ndash_dashboard_user,ndash.dashboard user,model_ndash_dashboard,group_ndash_user,1,0,0,0
+access_ndash_dashboard_manager,ndash.dashboard manager,model_ndash_dashboard,group_ndash_manager,1,1,1,1
+access_ndash_item_user,ndash.item user,model_ndash_item,group_ndash_user,1,0,0,0
+access_ndash_item_manager,ndash.item manager,model_ndash_item,group_ndash_manager,1,1,1,1
+access_ndash_item_column_user,ndash.item.column user,model_ndash_item_column,group_ndash_user,1,0,0,0
+access_ndash_item_column_manager,ndash.item.column manager,model_ndash_item_column,group_ndash_manager,1,1,1,1
