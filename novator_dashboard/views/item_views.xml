@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ndash_item_form" model="ir.ui.view">
+        <field name="name">ndash.item.form</field>
+        <field name="model">ndash.item</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="groupby_is_date" invisible="1"/>
+                    <field name="groupby2_is_date" invisible="1"/>
+                    <field name="model_name" invisible="1"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Sales this month"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type" widget="selection"/>
+                            <field name="dashboard_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Tooltip on the title"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Data" name="data">
+                            <group name="source">
+                                <group>
+                                    <field name="source" invisible="1"/>
+                                    <field name="model_id" options="{'no_create': True}"
+                                           required="source == 'model'" invisible="source != 'model'"/>
+                                    <field name="domain" widget="domain" options="{'model': 'model_name'}"
+                                           invisible="source != 'model' or not model_id"/>
+                                </group>
+                                <group invisible="source != 'model'">
+                                    <field name="date_field_id" options="{'no_create': True}" invisible="not model_id"/>
+                                    <field name="date_mode" invisible="not date_field_id"/>
+                                    <field name="date_preset" invisible="date_mode != 'own' or not date_field_id"/>
+                                </group>
+                            </group>
+                            <group name="measures" invisible="source != 'model' or not model_id or (type == 'list' and list_mode == 'records')">
+                                <group string="Measure">
+                                    <field name="aggregate"/>
+                                    <field name="measure_field_id" options="{'no_create': True}"
+                                           invisible="aggregate == 'count'" required="aggregate != 'count'"/>
+                                </group>
+                                <group string="Second measure" invisible="type not in ('bar', 'line', 'area', 'scatter', 'list', 'hbar')">
+                                    <field name="count2"/>
+                                    <field name="aggregate2" invisible="count2"/>
+                                    <field name="measure2_field_id" options="{'no_create': True}" invisible="count2"/>
+                                </group>
+                            </group>
+                            <group name="grouping" invisible="source != 'model' or not model_id or type in ('tile', 'gauge') or (type == 'list' and list_mode == 'records')">
+                                <group string="Group by">
+                                    <field name="groupby_field_id" options="{'no_create': True}"
+                                           required="type not in ('tile', 'gauge', 'list') and source == 'model'"/>
+                                    <field name="granularity" invisible="not groupby_is_date"/>
+                                    <field name="groupby2_field_id" options="{'no_create': True}"
+                                           invisible="type in ('scatter', 'funnel', 'pie', 'doughnut', 'polar', 'list')"/>
+                                    <field name="granularity2" invisible="not groupby2_is_date"/>
+                                </group>
+                                <group string="Sort and limit">
+                                    <field name="order"/>
+                                    <field name="limit"/>
+                                    <field name="others" invisible="not limit"/>
+                                    <field name="cumulative" invisible="type not in ('bar', 'line', 'area', 'stacked')"/>
+                                </group>
+                            </group>
+                            <group name="list" string="List" invisible="type != 'list'">
+                                <group>
+                                    <field name="list_mode" widget="radio"/>
+                                    <field name="list_limit" invisible="list_mode != 'records'"/>
+                                    <field name="list_order" invisible="list_mode != 'records'"/>
+                                </group>
+                            </group>
+                            <field name="column_ids" invisible="type != 'list' or list_mode != 'records' or not model_id"
+                                   context="{'default_item_id': id}">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="model_id" column_invisible="1"/>
+                                    <field name="field_id" options="{'no_create': True}"/>
+                                    <field name="label"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Look" name="look">
+                            <group>
+                                <group string="Numbers">
+                                    <field name="prefix"/>
+                                    <field name="suffix"/>
+                                    <field name="currency"/>
+                                    <field name="short_numbers"/>
+                                    <field name="decimals"/>
+                                </group>
+                                <group string="Style">
+                                    <field name="icon" invisible="type != 'tile'"/>
+                                    <field name="color" widget="color"/>
+                                    <field name="palette" invisible="type in ('tile', 'gauge', 'list')"/>
+                                    <field name="show_values" invisible="type in ('tile', 'gauge', 'list')"/>
+                                    <field name="show_legend" invisible="type in ('tile', 'gauge', 'list', 'funnel')"/>
+                                </group>
+                                <group string="Goal" invisible="type not in ('tile', 'gauge')">
+                                    <field name="compare" invisible="type != 'tile'"/>
+                                    <field name="target"/>
+                                </group>
+                                <group string="Behaviour">
+                                    <field name="click_action"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Position" name="layout">
+                            <p class="text-muted">You can also drag and resize items on the dashboard in edit mode.</p>
+                            <group>
+                                <group>
+                                    <field name="x" string="Column (0-11)"/>
+                                    <field name="y" string="Row"/>
+                                </group>
+                                <group>
+                                    <field name="w" string="Width (1-12)"/>
+                                    <field name="h" string="Height"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ndash_item_tree" model="ir.ui.view">
+        <field name="name">ndash.item.tree</field>
+        <field name="model">ndash.item</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="dashboard_id"/>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="model_id"/>
+                <field name="groupby_field_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ndash_item_search" model="ir.ui.view">
+        <field name="name">ndash.item.search</field>
+        <field name="model">ndash.item</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="dashboard_id"/>
+                <field name="model_id"/>
+                <group>
+                    <filter name="by_dashboard" string="Dashboard" context="{'group_by': 'dashboard_id'}"/>
+                    <filter name="by_type" string="Type" context="{'group_by': 'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ndash_items" model="ir.actions.act_window">
+        <field name="name">Dashboard items</field>
+        <field name="res_model">ndash.item</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_ndash_items" name="Items" parent="menu_ndash_config" sequence="2"
+              action="action_ndash_items"/>
+</odoo>

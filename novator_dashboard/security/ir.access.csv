@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_ndash_dashboard_user,ndash.dashboard shared with me,ndash.dashboard,group_ndash_user,r,"['|', '|', '&', ('group_ids', '=', False), ('user_ids', '=', False), ('user_ids', 'in', [user.id]), ('group_ids', 'in', user.all_group_ids.ids)]"
+access_ndash_dashboard_manager,ndash.dashboard manager,ndash.dashboard,group_ndash_manager,crud,
+access_ndash_item_user,ndash.item shared with me,ndash.item,group_ndash_user,r,"['|', '|', '&', ('dashboard_id.group_ids', '=', False), ('dashboard_id.user_ids', '=', False), ('dashboard_id.user_ids', 'in', [user.id]), ('dashboard_id.group_ids', 'in', user.all_group_ids.ids)]"
+access_ndash_item_manager,ndash.item manager,ndash.item,group_ndash_manager,crud,
+access_ndash_item_column_user,ndash.item.column user,ndash.item.column,group_ndash_user,r,
+access_ndash_item_column_manager,ndash.item.column manager,ndash.item.column,group_ndash_manager,crud,

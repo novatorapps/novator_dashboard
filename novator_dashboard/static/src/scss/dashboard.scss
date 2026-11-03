@@ -1,0 +1,396 @@
+.o_ndash {
+    --ndash-row: 70px;
+    --ndash-gap: 16px;
+    padding: 16px 20px 32px;
+    background-color: $o-webclient-background-color;
+    min-height: 100%;
+
+    .min-w-0 {
+        min-width: 0;
+    }
+
+    .o_ndash_header {
+        margin-bottom: 16px;
+
+        .o_ndash_title {
+            font-size: 1.45rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .o_ndash_period {
+            width: auto;
+            min-width: 150px;
+        }
+
+        .o_ndash_custom input {
+            width: 140px;
+        }
+    }
+
+    .o_ndash_menu {
+        max-height: 70vh;
+        overflow-y: auto;
+        z-index: 1050;
+
+        &.show {
+            display: block;
+            position: absolute;
+            top: 100%;
+            margin-top: 2px;
+        }
+
+        &.dropdown-menu-end.show {
+            right: 0;
+            left: auto;
+        }
+
+        .o_ndash_switch {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            max-width: 240px;
+        }
+    }
+
+    .o_ndash_grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-auto-rows: var(--ndash-row);
+        gap: var(--ndash-gap);
+        position: relative;
+
+        &.o_ndash_editing {
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+            border-radius: 8px;
+            outline: 2px dashed rgba(0, 0, 0, 0.08);
+            outline-offset: 6px;
+            min-height: 300px;
+        }
+    }
+
+    .o_ndash_item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 0;
+        background-color: $o-view-background-color;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 10px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+        padding: 12px 14px;
+        transition: box-shadow 0.15s;
+
+        &:hover {
+            box-shadow: 0 4px 14px rgba(16, 24, 40, 0.08);
+        }
+
+        &.o_ndash_dragging {
+            z-index: 10;
+            opacity: 0.92;
+            box-shadow: 0 10px 30px rgba(16, 24, 40, 0.2);
+            transition: none;
+        }
+    }
+
+    .o_ndash_item_header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
+        min-height: 22px;
+
+        .o_ndash_item_title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            flex: 1 1 auto;
+        }
+    }
+
+    .o_ndash_drag {
+        cursor: move;
+        user-select: none;
+        touch-action: none;
+    }
+
+    .o_ndash_resize {
+        position: absolute;
+        right: 3px;
+        bottom: 3px;
+        width: 16px;
+        height: 16px;
+        cursor: nwse-resize;
+        touch-action: none;
+        border-right: 3px solid rgba(0, 0, 0, 0.25);
+        border-bottom: 3px solid rgba(0, 0, 0, 0.25);
+        border-bottom-right-radius: 4px;
+    }
+
+    .o_ndash_item_menu {
+        opacity: 0.5;
+    }
+
+    .o_ndash_item:hover .o_ndash_item_menu {
+        opacity: 1;
+    }
+
+    .o_ndash_body {
+        flex: 1 1 auto;
+        min-height: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .o_ndash_canvas {
+        position: relative;
+        flex: 1 1 auto;
+        min-height: 0;
+
+        canvas {
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    .o_ndash_clickable {
+        cursor: pointer;
+    }
+
+    // tiles
+    .o_ndash_type_tile {
+        padding: 14px 16px;
+
+        .o_ndash_tile_menu {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 2;
+        }
+
+        &.o_ndash_item .o_ndash_drag {
+            cursor: move;
+        }
+    }
+
+    .o_ndash_tile {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+    .o_ndash_tile_icon {
+        flex: 0 0 auto;
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .o_ndash_tile_label {
+        font-size: 0.85rem;
+        opacity: 0.75;
+        font-weight: 500;
+        padding-right: 18px;
+    }
+
+    .o_ndash_tile_value {
+        font-size: 1.9rem;
+        font-weight: 700;
+        line-height: 1.15;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .o_ndash_change {
+        font-weight: 600;
+
+        &.o_ndash_up {
+            color: #0f7a4a;
+        }
+
+        &.o_ndash_down {
+            color: #c92a2a;
+        }
+    }
+
+    .o_ndash_progress {
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+        margin-top: 8px;
+
+        > div {
+            height: 100%;
+            border-radius: 3px;
+        }
+    }
+
+    // gauge
+    .o_ndash_gauge .o_ndash_gauge_text {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 8%;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .o_ndash_gauge_value {
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+
+    // lists
+    .o_ndash_table_wrap {
+        flex: 1 1 auto;
+        overflow: auto;
+        min-height: 0;
+    }
+
+    .o_ndash_table {
+        font-size: 0.875rem;
+        table-layout: auto;
+
+        th {
+            position: sticky;
+            top: 0;
+            background-color: $o-view-background-color;
+            font-weight: 600;
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        td.text-truncate {
+            max-width: 240px;
+        }
+    }
+
+    .o_ndash_more {
+        padding-top: 4px;
+    }
+
+    // funnel
+    .o_ndash_funnel {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        overflow: auto;
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .o_ndash_funnel_row {
+        display: grid;
+        grid-template-columns: minmax(80px, 30%) 1fr;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .o_ndash_funnel_label {
+        font-size: 0.85rem;
+        text-align: right;
+    }
+
+    .o_ndash_funnel_track {
+        display: flex;
+        justify-content: center;
+    }
+
+    .o_ndash_funnel_bar {
+        min-height: 28px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: width 0.4s;
+
+        span {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+            white-space: nowrap;
+        }
+    }
+
+    .o_ndash_error,
+    .o_ndash_nodata {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.875rem;
+        padding: 8px;
+    }
+
+    .o_ndash_error {
+        color: #b02a37;
+    }
+
+    .o_ndash_empty,
+    .o_ndash_noitems {
+        grid-column: 1 / -1;
+        grid-row: span 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px;
+    }
+
+    .o_ndash_empty {
+        min-height: 60vh;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .o_ndash {
+        padding: 12px;
+
+        .o_ndash_grid {
+            grid-template-columns: minmax(0, 1fr);
+            grid-auto-rows: auto;
+        }
+
+        .o_ndash_item {
+            grid-column: 1 / -1 !important;
+            grid-row: auto !important;
+            height: calc(var(--ndash-h, 4) * 70px);
+        }
+
+        .o_ndash_type_tile {
+            height: auto;
+            min-height: 120px;
+        }
+    }
+}
+
+@media print {
+    .o_main_navbar,
+    .o_ndash_header .btn,
+    .o_ndash_header select,
+    .o_ndash_item_menu,
+    .o_ndash_tile_menu {
+        display: none !important;
+    }
+
+    .o_ndash {
+        background: #fff !important;
+
+        .o_ndash_item {
+            break-inside: avoid;
+            box-shadow: none;
+        }
+    }
+}
