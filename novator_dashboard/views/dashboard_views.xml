@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ndash_dashboard_tree" model="ir.ui.view">
+        <field name="name">ndash.dashboard.tree</field>
+        <field name="model">ndash.dashboard</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="item_count"/>
+                <field name="date_preset"/>
+                <field name="group_ids" widget="many2many_tags" optional="show"/>
+                <field name="user_ids" widget="many2many_tags" optional="hide"/>
+                <field name="show_in_menu" optional="show"/>
+                <button name="action_open" type="object" string="Open" icon="fa-external-link" class="btn-link"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ndash_dashboard_form" model="ir.ui.view">
+        <field name="name">ndash.dashboard.form</field>
+        <field name="model">ndash.dashboard</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open" type="object" string="Open dashboard" class="btn-primary"/>
+                    <button name="action_set_home" type="object" string="Set as my home page"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_items" type="object" class="oe_stat_button" icon="fa-th-large">
+                            <field name="item_count" widget="statinfo" string="Items"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Sales overview"/></h1>
+                    </div>
+                    <group>
+                        <group string="Display">
+                            <field name="date_preset"/>
+                            <field name="refresh_interval"/>
+                            <field name="palette"/>
+                        </group>
+                        <group string="Menu">
+                            <field name="show_in_menu"/>
+                            <field name="menu_parent_id" invisible="not show_in_menu"
+                                   options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Access" name="access">
+                            <p class="text-muted">Leave both empty to share the dashboard with every dashboard user.
+                                Data is always read with each user's own access rights, so people only see figures
+                                for records they are allowed to see.</p>
+                            <group>
+                                <field name="group_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                <field name="user_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            </group>
+                        </page>
+                        <page string="Items" name="items">
+                            <field name="item_ids" context="{'default_dashboard_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                    <field name="model_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="What this dashboard is for"/>
+                        </page>
+                    </notebook>
+                    <div name="ndash_pro_panel" class="alert alert-light border mt-3 mb-0" role="status">
+                        <i class="fa fa-star text-warning me-1" title="Pro"/>
+                        <strong>Dashboard Builder Pro</strong>: AI dashboards with your own key, drill-down,
+                        TV mode, SQL items, scheduled email digests, ready-made templates and import/export.
+                        <a href="https://apps.odoo.com/apps/modules/18.0/novator_dashboard_pro" target="_blank">
+                            See Pro <i class="fa fa-arrow-right"/></a>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ndash_dashboard_search" model="ir.ui.view">
+        <field name="name">ndash.dashboard.search</field>
+        <field name="model">ndash.dashboard</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ndash_dashboards" model="ir.actions.act_window">
+        <field name="name">Dashboards</field>
+        <field name="res_model">ndash.dashboard</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first dashboard</p>
+            <p>Add KPI tiles, charts and lists from any Odoo data.</p>
+        </field>
+    </record>
+    <menuitem id="menu_ndash_dashboards" name="Dashboards" parent="menu_ndash_config" sequence="1"
+              action="action_ndash_dashboards"/>
+</odoo>

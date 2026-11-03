@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_ndash_home" model="ir.actions.client">
+        <field name="name">Dashboards</field>
+        <field name="tag">ndash_dashboard</field>
+    </record>
+    <menuitem id="menu_ndash_root" name="Dashboards" sequence="5" action="action_ndash_home"
+              web_icon="novator_dashboard,static/description/icon.png"
+              groups="group_ndash_user"/>
+    <menuitem id="menu_ndash_open" name="Dashboards" parent="menu_ndash_root" sequence="1"
+              action="action_ndash_home"/>
+    <menuitem id="menu_ndash_config" name="Configuration" parent="menu_ndash_root" sequence="90"
+              groups="group_ndash_manager"/>
+</odoo>

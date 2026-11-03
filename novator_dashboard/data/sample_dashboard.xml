@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="dashboard_contacts" model="ndash.dashboard">
+        <field name="name">Contacts overview</field>
+        <field name="description">A sample dashboard. Edit it, or create your own from Configuration.</field>
+        <field name="sequence">100</field>
+        <field name="date_preset">none</field>
+    </record>
+
+    <record id="item_contacts_total" model="ndash.item">
+        <field name="dashboard_id" ref="dashboard_contacts"/>
+        <field name="name">Contacts</field>
+        <field name="type">tile</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="aggregate">count</field>
+        <field name="date_field_id" ref="base.field_res_partner__create_date"/>
+        <field name="icon">fa-address-book</field>
+        <field name="x">0</field><field name="y">0</field><field name="w">3</field><field name="h">2</field>
+    </record>
+    <record id="item_contacts_companies" model="ndash.item">
+        <field name="dashboard_id" ref="dashboard_contacts"/>
+        <field name="name">Companies</field>
+        <field name="type">tile</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain">[('is_company', '=', True)]</field>
+        <field name="aggregate">count</field>
+        <field name="date_field_id" ref="base.field_res_partner__create_date"/>
+        <field name="icon">fa-building</field>
+        <field name="color">#14a38b</field>
+        <field name="x">3</field><field name="y">0</field><field name="w">3</field><field name="h">2</field>
+    </record>
+    <record id="item_contacts_mine" model="ndash.item">
+        <field name="dashboard_id" ref="dashboard_contacts"/>
+        <field name="name">My contacts (salesperson)</field>
+        <field name="type">tile</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain">[('user_id', '=', '%UID')]</field>
+        <field name="aggregate">count</field>
+        <field name="icon">fa-user</field>
+        <field name="color">#4b3fc4</field>
+        <field name="x">6</field><field name="y">0</field><field name="w">3</field><field name="h">2</field>
+    </record>
+    <record id="item_contacts_email" model="ndash.item">
+        <field name="dashboard_id" ref="dashboard_contacts"/>
+        <field name="name">Without email</field>
+        <field name="type">tile</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain">[('email', '=', False)]</field>
+        <field name="aggregate">count</field>
+        <field name="icon">fa-envelope-o</field>
+        <field name="color">#c2255c</field>
+        <field name="x">9</field><field name="y">0</field><field name="w">3</field><field name="h">2</field>
+    </record>
+    <record id="item_contacts_country" model="ndash.item">
+        <field name="dashboard_id" ref="dashboard_contacts"/>
+        <field name="name">Contacts by country</field>
+        <field name="type">bar</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="aggregate">count</field>
+        <field name="groupby_field_id" ref="base.field_res_partner__country_id"/>
+        <field name="order">value_desc</field>
+        <field name="limit">8</field>
+        <field name="others" eval="True"/>
+        <field name="show_values" eval="True"/>
+        <field name="x">0</field><field name="y">2</field><field name="w">8</field><field name="h">5</field>
+    </record>
+    <record id="item_contacts_kind" model="ndash.item">
+        <field name="dashboard_id" ref="dashboard_contacts"/>
+        <field name="name">Companies and people</field>
+        <field name="type">doughnut</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="aggregate">count</field>
+        <field name="groupby_field_id" ref="base.field_res_partner__is_company"/>
+        <field name="x">8</field><field name="y">2</field><field name="w">4</field><field name="h">5</field>
+    </record>
+    <record id="item_contacts_growth" model="ndash.item">
+        <field name="dashboard_id" ref="dashboard_contacts"/>
+        <field name="name">Contacts created (running total)</field>
+        <field name="type">area</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="aggregate">count</field>
+        <field name="groupby_field_id" ref="base.field_res_partner__create_date"/>
+        <field name="granularity">month</field>
+        <field name="cumulative" eval="True"/>
+        <field name="show_legend" eval="False"/>
+        <field name="x">0</field><field name="y">7</field><field name="w">7</field><field name="h">4</field>
+    </record>
+    <record id="item_contacts_latest" model="ndash.item">
+        <field name="dashboard_id" ref="dashboard_contacts"/>
+        <field name="name">Latest contacts</field>
+        <field name="type">list</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="list_mode">records</field>
+        <field name="list_order">create_date desc</field>
+        <field name="list_limit">6</field>
+        <field name="column_ids" eval="[(0, 0, {'sequence': 1, 'field_id': ref('base.field_res_partner__name')}), (0, 0, {'sequence': 2, 'field_id': ref('base.field_res_partner__country_id')}), (0, 0, {'sequence': 3, 'field_id': ref('base.field_res_partner__create_date'), 'label': 'Created'})]"/>
+        <field name="x">7</field><field name="y">7</field><field name="w">5</field><field name="h">4</field>
+    </record>
+</odoo>
