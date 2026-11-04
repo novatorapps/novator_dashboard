@@ -2,7 +2,7 @@
     'name': 'Dashboard Builder: KPI Tiles, Charts & Lists',
     'summary': 'Build dashboards from any Odoo data: KPI tiles, 13 chart types, lists, date filters, '
                'drag and drop. Free.',
-    'version': '20.0.1.0.1',
+    'version': '20.0.1.0.2',
     'category': 'Productivity',
     'author': 'Novator Technologies',
     'website': 'https://docs.novatorapps.com/dashboard-builder',
